@@ -35,7 +35,7 @@ A simple online book search web app using the Open Library API.
   - DOMContentLoaded (runs JS after page loads)
   - Search button click
   - Pressing Enter key
-- ✅ 10 Git commits made with small meaningful changes
+- ✅ 10 or more idk Git commits made with small meaningful changes
 
 ## 🛠 How To Run This Project
 

@@ -1,11 +1,18 @@
 body {
   font-family: Arial, sans-serif;
   padding: 20px;
-  background: #f8f8f8;
+  background: #911212;
+  color: white;
+}
+
+h1,
+h2 {
+  text-align: center;
 }
 
 #search-container {
   margin-bottom: 20px;
+  text-align: center;
 }
 
 #searchInput {
@@ -17,8 +24,20 @@ body {
   padding: 10px 20px;
 }
 
+form {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+form input,
+form button {
+  padding: 10px;
+  margin: 5px;
+}
+
 .book-card {
   background: white;
+  color: black;
   padding: 10px;
   margin: 10px 0;
   border-radius: 8px;

@@ -8,10 +8,20 @@
   </head>
   <body>
     <h1>Modern Bookshop</h1>
+
     <div id="search-container">
       <input type="text" id="searchInput" placeholder="Search for books..." />
       <button id="searchBtn">Search</button>
     </div>
+
+    <h2>Add a New Book</h2>
+    <form id="addBookForm">
+      <input type="text" id="newTitle" placeholder="Book Title" required />
+      <input type="text" id="newAuthor" placeholder="Author" required />
+      <input type="number" id="newYear" placeholder="Year Published" required />
+      <button type="submit">Add Book</button>
+    </form>
+
     <div id="results"></div>
 
     <script src="index.js"></script>

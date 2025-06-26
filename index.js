@@ -1,46 +1,58 @@
-// Event Listener #1: Run all JavaScript only after the page is fully loaded
 window.addEventListener("DOMContentLoaded", start);
 
-// Main function to run when the page is ready
 function start() {
-  // Get the elements from the HTML
   const searchButton = document.getElementById("searchBtn");
   const searchInput = document.getElementById("searchInput");
   const resultsArea = document.getElementById("results");
 
-  // Event Listener #2: When the user clicks the Search button
+  const addBookForm = document.getElementById("addBookForm");
+  const newTitle = document.getElementById("newTitle");
+  const newAuthor = document.getElementById("newAuthor");
+  const newYear = document.getElementById("newYear");
+
+  // Search button click
   searchButton.addEventListener("click", function () {
     performSearch();
   });
 
-  // ✅ Event Listener #3: When user presses Enter inside the input box
+  // Press Enter in input
   searchInput.addEventListener("keypress", function (event) {
     if (event.key === "Enter") {
       performSearch();
     }
   });
 
-  // This function runs the search
+  // Form submit for adding a new book
+  addBookForm.addEventListener("submit", function (event) {
+    event.preventDefault();
+
+    const bookData = {
+      title: newTitle.value.trim() || "No Title",
+      author_name: [newAuthor.value.trim() || "Unknown Author"],
+      first_publish_year: newYear.value || "N/A",
+    };
+
+    showBooks([bookData]); // Add new book to DOM
+    addBookForm.reset();
+  });
+
   function performSearch() {
     const userSearch = searchInput.value.trim();
 
-    // If nothing typed, show alert and stop
     if (userSearch === "") {
       alert("Please type a book name.");
       return;
     }
 
-    // Build the API URL using the user's search
     const url =
-      "https://openlibrary.org/search.json?q=" + encodeURIComponent(userSearch);
+      "https://openlibrary.org/search.json?q=" + encodeURI(userSearch);
 
-    // Use fetch to get book data from the API
     fetch(url)
       .then(function (response) {
-        return response.json(); // Convert to JSON
+        return response.json();
       })
       .then(function (data) {
-        showBooks(data.docs); // Show books on the page
+        showBooks(data.docs);
       })
       .catch(function (error) {
         console.log("There was a problem:", error);
@@ -49,48 +61,66 @@ function start() {
       });
   }
 
-  // This function displays the books in the results area
   function showBooks(bookList) {
-    resultsArea.innerHTML = ""; // Clear old results
-
-    // If no books found, show a message
-    if (!bookList || bookList.length === 0) {
-      resultsArea.innerHTML = "<p>No books found.</p>";
-      return;
+    // Don't clear results for new books being added
+    if (bookList.length !== 1) {
+      resultsArea.innerHTML = "";
     }
 
-    // Loop through each book
     for (let i = 0; i < bookList.length; i++) {
       const book = bookList[i];
 
-      // Get the book details safely
       const title = book.title || "No Title";
       const authors = book.author_name
         ? book.author_name.join(", ")
         : "Unknown Author";
       const year = book.first_publish_year || "N/A";
 
-      // Get the cover image if available
       let coverImage = "https://via.placeholder.com/100x150?text=No+Cover";
       if (book.cover_i) {
         coverImage =
           "https://covers.openlibrary.org/b/id/" + book.cover_i + "-M.jpg";
       }
 
-      // Create a card for the book
       const bookCard = document.createElement("div");
       bookCard.className = "book-card";
 
-      // Fill in the book card
       bookCard.innerHTML = `
         <img src="${coverImage}" alt="${title}" style="float:left;margin-right:10px;width:100px;height:150px;" />
         <h3>${title}</h3>
         <p><strong>Author:</strong> ${authors}</p>
         <p><strong>First Published:</strong> ${year}</p>
+        <button class="edit-btn">Edit</button>
+        <button class="remove-btn">Remove</button>
         <div style="clear:both"></div>
       `;
 
-      // Add the book card to the results area
+      // Remove button
+      bookCard
+        .querySelector(".remove-btn")
+        .addEventListener("click", function () {
+          bookCard.remove();
+        });
+
+      // Edit button
+      bookCard
+        .querySelector(".edit-btn")
+        .addEventListener("click", function () {
+          const newTitle = prompt("Edit book title:", title);
+          const newAuthor = prompt("Edit author(s):", authors);
+          const newYear = prompt("Edit publish year:", year);
+
+          if (newTitle && newAuthor && newYear) {
+            bookCard.querySelector("h3").textContent = newTitle;
+            bookCard.querySelector(
+              "p:nth-of-type(1)"
+            ).innerHTML = `<strong>Author:</strong> ${newAuthor}`;
+            bookCard.querySelector(
+              "p:nth-of-type(2)"
+            ).innerHTML = `<strong>First Published:</strong> ${newYear}`;
+          }
+        });
+
       resultsArea.appendChild(bookCard);
     }
   }
