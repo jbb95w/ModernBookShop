@@ -16,3 +16,7 @@ if (userSearch === "") {
 // Create the URL using what user typed
 const url =
   "https://openlibrary.org/search.json?q=" + encodeURIComponent(userSearch);
+// Use fetch to get data from the API
+fetch(url).then(function (response) {
+  return response.json();
+});
