@@ -13,3 +13,6 @@ if (userSearch === "") {
   alert("Please type a book name.");
   return;
 }
+// Create the URL using what user typed
+const url =
+  "https://openlibrary.org/search.json?q=" + encodeURIComponent(userSearch);
