@@ -8,3 +8,8 @@ const resultsArea = document.getElementById("results");
 searchButton.addEventListener("click", function () {
   performSearch();
 });
+// If input is empty, show alert and stop
+if (userSearch === "") {
+  alert("Please type a book name.");
+  return;
+}
