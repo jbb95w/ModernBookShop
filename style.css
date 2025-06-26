@@ -1,22 +1,3 @@
-body {
-  font-family: Arial, sans-serif;
-  padding: 20px;
-  background: #f8f8f8;
-}
-
-#search-container {
-  margin-bottom: 20px;
-}
-
-#searchInput {
-  padding: 10px;
-  width: 300px;
-}
-
-#searchBtn {
-  padding: 10px 20px;
-}
-
 .book-card {
   background: white;
   padding: 10px;
